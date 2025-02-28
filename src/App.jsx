@@ -1,3 +1,4 @@
+// Commented for code review
 import { useState, useEffect } from 'react'
 import './App.css'
 
