@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {createNewToDo} from '../features/toDo/toDoSlice' 
+import {createNewToDoAsync} from '../features/toDo/toDoSlice' 
 
 function AddToDo(){
     const [toDoInput, setToDoInput] = useState("");
     const dispatch = useDispatch();
 
-    function createNewToDoHandler(value) {
-      if(value !== ""){
-        dispatch(createNewToDo(value));
+    function createNewToDoHandler(newToDoValue) {
+      if(newToDoValue !== ""){
+        dispatch(createNewToDoAsync(newToDoValue));
         setToDoInput("");
       } else {
         alert("Input field is empty!")

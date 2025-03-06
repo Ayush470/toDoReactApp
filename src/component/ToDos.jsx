@@ -1,10 +1,16 @@
 import React from 'react'
+import {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteToDo, updateToDoTickBox, updateToDoUpdateClick, updateToDoSaveClick, updateToDoInputChange } from '../features/toDo/toDoSlice'
+import { fetchInitialLists, deleteToDoAsync, updateToDoTickBoxAsync, updateToDoUpdateClickAsync, updateToDoSaveClickAsync, updateToDoInputChangeAsync } from '../features/toDo/toDoSlice'
 
 function ToDos() {
-    let todos = useSelector(state => state.toDoListsObject);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchInitialLists());
+    }, []);
+
+    let todos = useSelector(state => state.toDo.toDoListsObject);
 
     return (
         <>
@@ -13,17 +19,17 @@ function ToDos() {
                     return (
                         <li key={id} className='toDoList' id={`todo-${id}`}>
                             <label htmlFor={`box-${id}`}></label>
-                            <input type="checkbox" name='toDoListItemCheckbox' className='itemCheckbox' id={`boxCounter-${id}`} checked={task.tickBoxStatus} onChange={() => dispatch(updateToDoTickBox(id))} />
+                            <input type="checkbox" name='toDoListItemCheckbox' className='itemCheckbox' id={`boxCounter-${id}`} checked={task.tickBoxStatus} onChange={() => dispatch(updateToDoTickBoxAsync(id))} />
 
                             <label htmlFor={`targetToDo-${id}`}></label>
-                            <input type="text" name='targetOfToDo' className='listItemContent' id={`targetToDo-${id}`} value={task.isEditable ? task.toDoInputCreated : task.listContent} onChange={(e) => dispatch(updateToDoInputChange({id, newToDoInputCreated: e.target.value}))} readOnly={!task.isEditable} />
+                            <input type="text" name='targetOfToDo' className='listItemContent' id={`targetToDo-${id}`} value={task.isEditable ? task.toDoInputCreated : task.listContent} onChange={(e) => dispatch(updateToDoInputChangeAsync({id, newToDoInputCreated: e.target.value}))} readOnly={!task.isEditable} />
 
-                            <button className='updateBtn' type='button' id={`updateBtn-${id}`} onClick={task.isEditable ? () => dispatch(updateToDoSaveClick({id, newToDoInputCreated: task.toDoInputCreated})) : () => dispatch(updateToDoUpdateClick(id))} >
+                            <button className='updateBtn' type='button' id={`updateBtn-${id}`} onClick={task.isEditable ? () => dispatch(updateToDoSaveClickAsync({id, newToDoInputCreated: task.toDoInputCreated})) : () => dispatch(updateToDoUpdateClickAsync(id))} >
                                 <i className={`fa-solid ${task.isEditable ? "fa-floppy-disk" : "fa-pen"}`}></i>
                                 {task.isEditable ? " Save" : " Update"}
                             </button>
 
-                            <button className='deleteBtn' type='button' id={`deleteBtn-${id}`} onClick={() => dispatch(deleteToDo(id))} >
+                            <button className='deleteBtn' type='button' id={`deleteBtn-${id}`} onClick={() => dispatch(deleteToDoAsync(id))} >
                                 <i className='fa-solid fa-trash'></i>Delete
                             </button>
                         </li>
