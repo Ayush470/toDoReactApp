@@ -16,10 +16,10 @@ function AddToDo(){
     }
 
     return (
-      <form>
-        <label htmlFor="task">Enter Task: </label>
-        <input type="text" id="task" name="toDo" value={toDoInput} onChange={e => setToDoInput(e.target.value)} />
-        <button type="button" id="add" onClick={() => createNewToDoHandler(toDoInput)}>+</button>
+      <form id="toDoForm">
+        <label htmlFor="task"></label>
+        <input type="text" id="task" name="toDo" value={toDoInput} onChange={e => setToDoInput(e.target.value)} placeholder="Enter Todo"/>
+        <button type="button" id="addToDoButton" onClick={() => createNewToDoHandler(toDoInput)}>Add Todo</button>
       </form>
     )
 }
